@@ -7,7 +7,6 @@ public class BrickAnim extends Sprite //cloneable
 {
     private int life = 16;
     private static final SpriteKind kind = SpriteKind.KIND_BRICK_ANIM;
-    
     private static final int yPicPreset = 1;
 
     public BrickAnim(LevelScene world,int x, int y, float xa, float ya)
@@ -27,7 +26,6 @@ public class BrickAnim extends Sprite //cloneable
         this.yPic = yPicPreset;
         this.xPicO = 4;
         this.yPicO = 4;
-        
         wPic = 8;
         hPic = 8;
         life = 10;
@@ -35,7 +33,6 @@ public class BrickAnim extends Sprite //cloneable
     
     public BrickAnim(LevelScene alreadyCopied,BrickAnim toCopy) {
     	super(alreadyCopied,toCopy);
-    	
     	this.spriteContext=alreadyCopied;
     	this.life=toCopy.life;
     }

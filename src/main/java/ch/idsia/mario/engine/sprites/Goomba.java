@@ -42,8 +42,6 @@ public class Goomba extends Enemy {
                         this.dead=true;
                         deadTime = 10;
                         winged = false;
-
-//                      System.out.println("collideCheck and stomp");
                         spriteContext.incrementKilledCreaturesTotal();
                         spriteContext.killedCreatureByStomp();;
                     }
@@ -59,7 +57,6 @@ public class Goomba extends Enemy {
         wingTime++;
         if (deadTime > 0) {
             deadTime--;
-
             if (deadTime == 0) {
                 deadTime = 1;
                 for (int i = 0; i < 8; i++) {
@@ -78,7 +75,6 @@ public class Goomba extends Enemy {
             return;
         }
 
-
         float sideWaysSpeed = 1.75f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
 
@@ -92,50 +88,38 @@ public class Goomba extends Enemy {
         }
 
         xa = facing * sideWaysSpeed;
-
         xFlipPic = facing == -1;
-
         runTime += (Math.abs(xa)) + 5;
-
         int runFrame = ((int) (runTime / 20)) % 2;
-
-        if (!onGround)
-        {
-            runFrame = 1;
-        }
-
 
         if (!move(xa, 0)) facing = -facing;
         onGround = false;
         move(0, ya);
-
         ya *= winged ? 0.95f : 0.85f;
+        
         if (onGround)
         {
             xa *= GROUND_INERTIA;
+            if (winged)
+            {
+                ya = -10;
+                runFrame = wingTime / 4 % 2;
+            }
         }
         else
         {
+        	runFrame = 1;
             xa *= AIR_INERTIA;
-        }
-
-        if (!onGround)
-        {
             if (winged)
             {
                 ya += 0.6f;
+                runFrame = wingTime / 4 % 2;
             }
             else
             {
                 ya += 2;
             }
         }
-        else if (winged)
-        {
-            ya = -10;
-        }
-
-        if (winged) runFrame = wingTime / 4 % 2;
 
         xPic = runFrame;
     }
@@ -144,51 +128,85 @@ public class Goomba extends Enemy {
     {
         while (xa > 8)
         {
-            if (!move(8, 0)) return false;
+            if (!move(8, 0)) {
+            	return false;
+            }
             xa -= 8;
         }
         while (xa < -8)
         {
-            if (!move(-8, 0)) return false;
+            if (!move(-8, 0)) {
+            	return false;
+            }
             xa += 8;
         }
         while (ya > 8)
         {
-            if (!move(0, 8)) return false;
+            if (!move(0, 8)) {
+            	return false;
+            }
             ya -= 8;
         }
         while (ya < -8)
         {
-            if (!move(0, -8)) return false;
+            if (!move(0, -8)) {
+            	return false;
+            }
             ya += 8;
         }
 
         boolean collide = false;
         if (ya > 0)
         {
-            if (isBlocking(x + xa - width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
         }
         if (ya < 0)
         {
-            if (isBlocking(x + xa, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
+            if (isBlocking(x + xa, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
         }
         if (xa > 0)
         {
-            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
         }
         if (xa < 0)
         {
-            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
         }
 
@@ -237,9 +255,7 @@ public class Goomba extends Enemy {
                 xa = fireball.getFacing() * 2;
                 ya = -5;
                 flyDeath = true;
-                
                 this.dead=true;
-                
                 deadTime = 100;
                 winged = false;
                 hPic = -hPic;
@@ -260,5 +276,4 @@ public class Goomba extends Enemy {
     public void render(Graphics og) {
     	super.render(og, kind);
     }
-
 }

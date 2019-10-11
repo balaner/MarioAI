@@ -9,27 +9,21 @@ public class Mushroom extends Sprite //cloneable
     private static float GROUND_INERTIA = 0.89f;
     private static float AIR_INERTIA = 0.89f;
     private static final SpriteKind kind = SpriteKind.KIND_MUSHROOM;
-
     private boolean onGround = false;
-    
     private static final int width = 4;
     private static final int height = 12;
-
     private int facing;
-
     private boolean avoidCliffs = false;
     private int life;
 
     public Mushroom(LevelScene world, int x, int y)
     {
         sheet = Art.items;
-
         this.x = x;
         this.y = y;
         this.spriteContext = world;
         xPicO = 8;
         yPicO = 15;
-
         yPic = 0;
         facing = 1;
         wPic  = hPic = 16;
@@ -38,7 +32,6 @@ public class Mushroom extends Sprite //cloneable
     
     public Mushroom(LevelScene alreadyCopied,Mushroom toCopy) {
     	super(alreadyCopied,toCopy);
-
     	onGround=toCopy.onGround;
     	facing=toCopy.facing;
     	avoidCliffs=toCopy.avoidCliffs;
@@ -71,7 +64,6 @@ public class Mushroom extends Sprite //cloneable
         }
         float sideWaysSpeed = 1.75f;
         layer = 1;
-
         if (xa > 2)
         {
             facing = 1;
@@ -80,15 +72,11 @@ public class Mushroom extends Sprite //cloneable
         {
             facing = -1;
         }
-
         xa = facing * sideWaysSpeed;
-
         xFlipPic = facing == -1;
-
         if (!move(xa, 0)) facing = -facing;
         onGround = false;
         move(0, ya);
-
         ya *= 0.85f;
         if (onGround)
         {
@@ -97,10 +85,6 @@ public class Mushroom extends Sprite //cloneable
         else
         {
             xa *= AIR_INERTIA;
-        }
-
-        if (!onGround)
-        {
             ya += 2;
         }
     }
@@ -109,54 +93,91 @@ public class Mushroom extends Sprite //cloneable
     {
         while (xa > 8)
         {
-            if (!move(8, 0)) return false;
+            if (!move(8, 0)) {
+            	return false;
+            }
             xa -= 8;
         }
         while (xa < -8)
         {
-            if (!move(-8, 0)) return false;
+            if (!move(-8, 0)) {
+            	return false;
+            }
             xa += 8;
         }
         while (ya > 8)
         {
-            if (!move(0, 8)) return false;
+            if (!move(0, 8)) {
+            	return false;
+            }
             ya -= 8;
         }
         while (ya < -8)
         {
-            if (!move(0, -8)) return false;
+            if (!move(0, -8)) {
+            	return false;
+            }
             ya += 8;
         }
 
         boolean collide = false;
         if (ya > 0)
         {
-            if (isBlocking(x + xa - width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
         }
         if (ya < 0)
         {
-            if (isBlocking(x + xa, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
+            if (isBlocking(x + xa, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
         }
         if (xa > 0)
         {
-            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya, xa, ya)) collide = true;
-
-            if (avoidCliffs && onGround && !spriteContext.levelIsBlocking((int) ((x + xa + width) / 16), (int) ((y) / 16 + 1), xa, 1)) collide = true;
+            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya, xa, ya)) {
+            	collide = true;
+            }
+            if (avoidCliffs && onGround && !spriteContext.levelIsBlocking((int) ((x + xa + width) / 16), (int) ((y) / 16 + 1), xa, 1)) {
+            	collide = true;
+            }
         }
         if (xa < 0)
         {
-            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
-            if (avoidCliffs && onGround && !spriteContext.levelIsBlocking((int) ((x + xa - width) / 16), (int) ((y) / 16 + 1), xa, 1)) collide = true;
+            if (avoidCliffs && onGround && !spriteContext.levelIsBlocking((int) ((x + xa - width) / 16), (int) ((y) / 16 + 1), xa, 1)) {
+            	collide = true;
+            }
         }
 
         if (collide)

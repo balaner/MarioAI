@@ -13,5 +13,4 @@ public class Shell_Red extends Shell {
 		super(alreadyCopied, toCopy);
 		yPic = yPicPreset;
 	}
-	
 }

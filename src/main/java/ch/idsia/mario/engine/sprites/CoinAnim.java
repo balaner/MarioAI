@@ -8,7 +8,6 @@ public class CoinAnim extends Sprite //cloneable
 {
     private int life = 16;
     private static final SpriteKind kind = SpriteKind.KIND_COIN_ANIM;
-    
     private static final int yPicPreset = 2;
 
     public CoinAnim(LevelScene world,int xTile, int yTile)
@@ -16,7 +15,6 @@ public class CoinAnim extends Sprite //cloneable
     	this.spriteContext=world;
         sheet = Art.level;
         wPic = hPic = 16;
-
         x = xTile * 16;
         y = yTile * 16 - 16;
         xa = 0;
@@ -27,7 +25,6 @@ public class CoinAnim extends Sprite //cloneable
     
     public CoinAnim(LevelScene alreadyCopied,CoinAnim toCopy) {
     	super(alreadyCopied,toCopy);
-    	
     	this.spriteContext=alreadyCopied;
     	this.life=toCopy.life;
     }
@@ -37,13 +34,14 @@ public class CoinAnim extends Sprite //cloneable
         if (life-- < 0)
         {
             this.spriteContext.removeSprite(this);
-            for (int xx = 0; xx < 2; xx++)
-                for (int yy = 0; yy < 2; yy++)
-                    this.spriteContext.addSprite(new Sparkle(spriteContext,(int)x + xx * 8 + (int) (Math.random() * 8), (int)y + yy * 8 + (int) (Math.random() * 8), 0, 0, 0, 5));
+            for (int xx = 0; xx < 2; xx++) {
+                for (int yy = 0; yy < 2; yy++){
+                	this.spriteContext.addSprite(new Sparkle(spriteContext,(int)x + xx * 8 + (int) (Math.random() * 8), (int)y + yy * 8 + (int) (Math.random() * 8), 0, 0, 0, 5));
+                }
+            }
         }
 
         xPic = life & 3;
-
         x += xa;
         y += ya;
         ya += 1;

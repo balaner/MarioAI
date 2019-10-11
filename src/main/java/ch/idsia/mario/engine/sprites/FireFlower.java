@@ -14,12 +14,10 @@ public class FireFlower extends Sprite //cloneable
     { 
     	this.spriteContext=world;
         sheet = Art.items;
-
         this.x = x;
         this.y = y;
         xPicO = 8;
         yPicO = 15;
-
         xPic = 1;
         yPic = 0;
         wPic  = hPic = 16;
@@ -28,7 +26,6 @@ public class FireFlower extends Sprite //cloneable
     
     public FireFlower(LevelScene alreadyCopied, FireFlower toCopy) {
     	super(alreadyCopied, toCopy);
-    	
     	this.life=toCopy.life;
     }
 

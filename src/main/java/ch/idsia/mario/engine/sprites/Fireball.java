@@ -9,35 +9,27 @@ public class Fireball extends Sprite //cloneable
     private static float GROUND_INERTIA = 0.89f;
     private static float AIR_INERTIA = 0.89f;
     private static final SpriteKind kind = SpriteKind.KIND_FIREBALL;
-
     private float runTime;
     private boolean onGround = false;
-
     private static final int width = 4;
     private static final int height = 8;
-
     private int facing;
     private int anim;
-
     private boolean dead = false;
     private int deadTime = 0;
-    
     private final static int yPicPreset = 3;
 
     public Fireball(LevelScene world, float x, float y, int facing) {
         sheet = Art.particles;
-
         this.x = x;
         this.y = y;
         this.spriteContext = world;
         xPicO = 4;
         yPicO = 4;
-
         yPic = 3;
         this.facing = facing;
         wPic = 8;
         hPic = 8;
-
         xPic = 4;
         ya = 4;
         yPic = yPicPreset;
@@ -47,7 +39,6 @@ public class Fireball extends Sprite //cloneable
     
     public Fireball(LevelScene alreadyCopied,Fireball toCopy) {
     	super(alreadyCopied,toCopy);
-    	
     	this.runTime=toCopy.runTime;
     	this.onGround=toCopy.onGround;
     	this.facing=toCopy.facing;
@@ -67,15 +58,12 @@ public class Fireball extends Sprite //cloneable
                 spriteContext.addSprite(new Sparkle(spriteContext,(int) (x + Math.random() * 8 - 4)+4, (int) (y + Math.random() * 8-4)+2, (float) Math.random() * 2 - 1-facing, (float) Math.random() *2 -1, 0, 5));
             }
             spriteContext.removeSprite(this);
-
             return;
         }
 
         if (facing != 0) anim++;
-
         float sideWaysSpeed = 8f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
-
         if (xa > 2)
         {
             facing = 1;
@@ -84,18 +72,11 @@ public class Fireball extends Sprite //cloneable
         {
             facing = -1;
         }
-
         xa = facing * sideWaysSpeed;
-
         spriteContext.checkFireballCollide(this);
-
         xFlipPic = facing == -1;
-
         runTime += (Math.abs(xa)) + 5;
-
         xPic = (anim) % 4;
-
-
 
         if (!move(xa, 0))
         {
@@ -105,7 +86,6 @@ public class Fireball extends Sprite //cloneable
         onGround = false;
         move(0, ya);
         if (onGround) ya = -10;
-
         ya *= 0.95f;
         if (onGround)
         {
@@ -114,10 +94,6 @@ public class Fireball extends Sprite //cloneable
         else
         {
             xa *= AIR_INERTIA;
-        }
-
-        if (!onGround)
-        {
             ya += 1.5;
         }
     }
@@ -126,54 +102,92 @@ public class Fireball extends Sprite //cloneable
     {
         while (xa > 8)
         {
-            if (!move(8, 0)) return false;
+            if (!move(8, 0)) {
+            	return false;
+            }
             xa -= 8;
         }
         while (xa < -8)
         {
-            if (!move(-8, 0)) return false;
+            if (!move(-8, 0)) {
+            	return false;
+            }
             xa += 8;
         }
         while (ya > 8)
         {
-            if (!move(0, 8)) return false;
+            if (!move(0, 8)) {
+            	return false;
+            }
             ya -= 8;
         }
         while (ya < -8)
         {
-            if (!move(0, -8)) return false;
+            if (!move(0, -8)) {
+            	return false;
+            }
             ya += 8;
         }
 
         boolean collide = false;
         if (ya > 0)
         {
-            if (isBlocking(x + xa - width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
         }
         if (ya < 0)
         {
-            if (isBlocking(x + xa, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
+            if (isBlocking(x + xa, y + ya - height, xa, ya)){
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)){
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
         }
         if (xa > 0)
         {
-            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
-            if (onGround && !spriteContext.levelIsBlocking((int) ((x + xa + width) / 16), (int) ((y) / 16 + 1), xa, 1)) collide = true;
+            if (onGround && !spriteContext.levelIsBlocking((int) ((x + xa + width) / 16), (int) ((y) / 16 + 1), xa, 1)) {
+            	collide = true;
+            }
         }
         if (xa < 0)
         {
-            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
-            if (onGround && !spriteContext.levelIsBlocking((int) ((x + xa - width) / 16), (int) ((y) / 16 + 1), xa, 1)) collide = true;
+            if (onGround && !spriteContext.levelIsBlocking((int) ((x + xa - width) / 16), (int) ((y) / 16 + 1), xa, 1)) {
+            	collide = true;
+            }
         }
 
         if (collide)
@@ -212,17 +226,16 @@ public class Fireball extends Sprite //cloneable
     {
         int x = (int) (_x / 16);
         int y = (int) (_y / 16);
-        if (x == (int) (this.x / 16) && y == (int) (this.y / 16)) return false;
-
+        if (x == (int) (this.x / 16) && y == (int) (this.y / 16)) {
+        	return false;
+        }
         boolean blocking = spriteContext.levelIsBlocking(x, y, xa, ya);
-
         return blocking;
     }
 
     public void die()
     {
         dead = true;
-
         xa = -facing * 2;
         ya = -5;
         deadTime = 100;

@@ -10,43 +10,33 @@ public class Shell extends Sprite {//cloneable
     private static final float GROUND_INERTIA = 0.89f;
     private static final float AIR_INERTIA = 0.89f;
     private static final SpriteKind kind = SpriteKind.KIND_SHELL;
-
     private boolean onGround = false;
-
     private static final int width = 4;
     private static final int height = 12;
-
     private int facing;
-
     private int anim;
-
     private boolean dead = false;
     private int deadTime = 0;
     private boolean carried; //useless?
-    
     private static final int yPicPreset = 13;
 
 
 	public Shell(LevelScene world, float x, float y) {
         sheet = Art.enemies;
-
         this.x = x;
         this.y = y;
         this.spriteContext = world;
         xPicO = 8;
         yPicO = 31;
-
         yPic = yPicPreset;
         facing = 0;
         wPic = 16;
-
         xPic = 4;
         ya = -5;
     }
     
     public Shell(LevelScene alreadyCopied,Shell toCopy) {
     	super(alreadyCopied,toCopy);
-
     	onGround=toCopy.onGround;
     	facing=toCopy.facing;
     	anim=toCopy.anim;
@@ -56,8 +46,9 @@ public class Shell extends Sprite {//cloneable
     }
     
     public boolean fireballCollideCheck(Fireball fireball) {
-        if (deadTime != 0) return false;
-
+        if (deadTime != 0) {
+        	return false;
+        }
         float xD = fireball.x - x;
         float yD = fireball.y - y;
 
@@ -65,13 +56,12 @@ public class Shell extends Sprite {//cloneable
         {
             if (yD > -height && yD < fireball.getHeight())
             {
-                if (facing!=0) return true;
-                
+                if (facing!=0) {
+                	return true;
+                }
                 xa = fireball.getFacing() * 2;
                 ya = -5;
-                
                 this.dead=true;
-                
                 deadTime = 100;
                 hPic = -hPic;
                 yPicO = -yPicO + 16;
@@ -82,7 +72,9 @@ public class Shell extends Sprite {//cloneable
     }    
 
     public void collideCheck() {
-        if (isCarried() || dead || deadTime>0) return;
+        if (isCarried() || dead || deadTime>0) {
+        	return;
+        }
 
         float xMarioD = spriteContext.getMarioX() - x;
         float yMarioD = spriteContext.getMarioY() - y;
@@ -150,41 +142,30 @@ public class Shell extends Sprite {//cloneable
 
         float sideWaysSpeed = 11f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
-
         if (xa > 2) {
             facing = 1;
         }
         if (xa < -2) {
             facing = -1;
         }
-
         xa = facing * sideWaysSpeed;
-
         if (facing != 0) {
             spriteContext.checkShellCollide(this);
         }
-
         xFlipPic = facing == -1;
-
         xPic = (anim / 2) % 4 + 3;
-
-
 
         if (!move(xa, 0)) {
             facing = -facing;
         }
         onGround = false;
         move(0, ya);
-
         ya *= 0.85f;
         if (onGround) {
             xa *= GROUND_INERTIA;
         }
         else {
             xa *= AIR_INERTIA;
-        }
-
-        if (!onGround) {
             ya += 2;
         }
     }
@@ -193,46 +174,80 @@ public class Shell extends Sprite {//cloneable
 	@SuppressWarnings("unused")
 	private boolean move(float xa, float ya) {
         while (xa > 8) {
-            if (!move(8, 0)) return false;
+            if (!move(8, 0)) {
+            	return false;
+            }
             xa -= 8;
         }
         while (xa < -8) {
-            if (!move(-8, 0)) return false;
+            if (!move(-8, 0)) {
+            	return false;
+            }
             xa += 8;
         }
         while (ya > 8) {
-            if (!move(0, 8)) return false;
+            if (!move(0, 8)) {
+            	return false;
+            }
             ya -= 8;
         }
         while (ya < -8) {
-            if (!move(0, -8)) return false;
+            if (!move(0, -8)) {
+            	return false;
+            }
             ya += 8;
         }
 
         boolean collide = false;
         if (ya > 0) {
-            if (isBlocking(x + xa - width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
         }
         if (ya < 0) {
-            if (isBlocking(x + xa, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
+            if (isBlocking(x + xa, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
         }
         if (xa > 0)
         {
-            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
         }
         if (xa < 0)
         {
-            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
         }
 
@@ -273,14 +288,11 @@ public class Shell extends Sprite {//cloneable
         int x = (int) (_x / 16);
         int y = (int) (_y / 16);
         if (x == (int) (this.x / 16) && y == (int) (this.y / 16)) return false;
-
         boolean blocking = spriteContext.levelIsBlocking(x, y, xa, ya);
-
         if (blocking && ya == 0 && xa!=0)
         {
             spriteContext.bump(x, y, true);
         }
- 
         return blocking;
     }
 
@@ -296,9 +308,7 @@ public class Shell extends Sprite {//cloneable
     public void die()
     {
         dead = true;
-
         setCarried(false);
-
         xa = -facing * 2;
         ya = -5;
         deadTime = 100;
@@ -307,10 +317,8 @@ public class Shell extends Sprite {//cloneable
     public boolean shellCollideCheck(Shell shell)
     {
         if (deadTime != 0) return false;
-
         float xD = shell.x - x;
         float yD = shell.y - y;
-
         if (xD > -16 && xD < 16)
         {
             if (yD > -height && yD < Shell.height)
@@ -318,7 +326,7 @@ public class Shell extends Sprite {//cloneable
                 if (spriteContext.getMarioCarried() == shell || spriteContext.getMarioCarried() == this)
                 {
                     spriteContext.setMarioCarried(null);
-                    }
+                }
 
                 die();
                 shell.die();
@@ -327,7 +335,6 @@ public class Shell extends Sprite {//cloneable
         }
         return false;
     }
-
 
     public void release(Mario mario)
     {

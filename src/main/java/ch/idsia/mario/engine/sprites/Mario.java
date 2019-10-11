@@ -366,9 +366,6 @@ public class Mario extends Sprite // cloneable
 			xa *= GROUND_INERTIA;
 		} else {
 			xa *= AIR_INERTIA;
-		}
-
-		if (!onGround) {
 			ya += 3;
 		}
 
@@ -389,37 +386,52 @@ public class Mario extends Sprite // cloneable
 			runFrame = ((int) (runTime / 20)) % 4;
 			if (runFrame == 3)
 				runFrame = 1;
-			if (getCarried() == null && Math.abs(xa) > 10)
-				runFrame += 3;
-			if (getCarried() != null)
+			if (getCarried() == null) {
+				 if(Math.abs(xa) > 10) {
+					 runFrame += 3;
+				 }
+			}
+			if (getCarried() != null) {
 				runFrame += 10;
+			}
 			if (!onGround) {
-				if (getCarried() != null)
+				if (getCarried() != null) {
 					runFrame = 12;
-				else if (Math.abs(xa) > 10)
+				}
+				else if (Math.abs(xa) > 10) {
 					runFrame = 7;
-				else
+				}
+				else {
 					runFrame = 6;
+				}
 			}
 		} else {
 			runFrame = ((int) (runTime / 20)) % 2;
-			if (getCarried() == null && Math.abs(xa) > 10)
-				runFrame += 2;
-			if (getCarried() != null)
+			if (getCarried() == null) {
+				if(Math.abs(xa) > 10) {
+					runFrame += 2;
+				}
+			}
+			if (getCarried() != null) {
 				runFrame += 8;
+			}
 			if (!onGround) {
-				if (getCarried() != null)
+				if (getCarried() != null) {
 					runFrame = 9;
-				else if (Math.abs(xa) > 10)
+				}
+				else if (Math.abs(xa) > 10){
 					runFrame = 5;
-				else
+				}
+				else{
 					runFrame = 4;
+				}
 			}
 		}
 
 		if (onGround && ((facing == -1 && xa > 0) || (facing == 1 && xa < 0))) {
-			if (xa > 1 || xa < -1)
+			if (xa > 1 || xa < -1){
 				runFrame = isLarge() ? 9 : 7;
+			}
 
 			if (xa > 3 || xa < -3) {
 				for (int i = 0; i < 3; i++) {
@@ -443,23 +455,27 @@ public class Mario extends Sprite // cloneable
 
 	private boolean move(float xa, float ya) {
 		while (xa > 8) {
-			if (!move(8, 0))
+			if (!move(8, 0)){
 				return false;
+			}
 			xa -= 8;
 		}
 		while (xa < -8) {
-			if (!move(-8, 0))
+			if (!move(-8, 0)){
 				return false;
+			}
 			xa += 8;
 		}
 		while (ya > 8) {
-			if (!move(0, 8))
+			if (!move(0, 8)){
 				return false;
+			}
 			ya -= 8;
 		}
 		while (ya < -8) {
-			if (!move(0, -8))
+			if (!move(0, -8)){
 				return false;
+			}
 			ya += 8;
 		}
 
@@ -475,42 +491,57 @@ public class Mario extends Sprite // cloneable
 				collide = true;
 		}
 		if (ya < 0) {
-			if (isBlocking(x + xa, y + ya - height, xa, ya))
+			if (isBlocking(x + xa, y + ya - height, xa, ya)){
 				collide = true;
-			else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya))
+			}
+			else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)){
 				collide = true;
-			else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya))
+			}
+			else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)){
 				collide = true;
+			}
 		}
 		if (xa > 0) {
 			sliding = true;
-			if (isBlocking(x + xa + width, y + ya - height, xa, ya))
+			if (isBlocking(x + xa + width, y + ya - height, xa, ya)){
 				collide = true;
-			else
+			}
+			else{
 				sliding = false;
-			if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya))
+			}
+			if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)){
 				collide = true;
-			else
+			}
+			else{
 				sliding = false;
-			if (isBlocking(x + xa + width, y + ya, xa, ya))
+			}
+			if (isBlocking(x + xa + width, y + ya, xa, ya)){
 				collide = true;
-			else
+			}
+			else{
 				sliding = false;
+			}
 		}
 		if (xa < 0) {
 			sliding = true;
-			if (isBlocking(x + xa - width, y + ya - height, xa, ya))
+			if (isBlocking(x + xa - width, y + ya - height, xa, ya)){
 				collide = true;
-			else
+			}
+			else{
 				sliding = false;
-			if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya))
+			}
+			if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)){
 				collide = true;
-			else
+			}
+			else{
 				sliding = false;
-			if (isBlocking(x + xa - width, y + ya, xa, ya))
+			}
+			if (isBlocking(x + xa - width, y + ya, xa, ya)){
 				collide = true;
-			else
+			}
+			else{
 				sliding = false;
+			}
 		}
 
 		if (collide) {
@@ -542,8 +573,9 @@ public class Mario extends Sprite // cloneable
 	private boolean isBlocking(float _x, float _y, float xa, float ya) {
 		int x = (int) (_x / 16);
 		int y = (int) (_y / 16);
-		if (x == (int) (this.x / 16) && y == (int) (this.y / 16))
+		if (x == (int) (this.x / 16) && y == (int) (this.y / 16)) {
 			return false;
+		}
 
 		boolean blocking = spriteContext.levelIsBlocking(x, y, xa, ya);
 
@@ -566,8 +598,9 @@ public class Mario extends Sprite // cloneable
 	}
 
 	public void stomp(Enemy enemy) {
-		if (getDeathTime() > 0 )
+		if (getDeathTime() > 0 ){
 			return;
+		}
 
 		float targetY = enemy.y - enemy.height / 2;
 		move(0, targetY - y);
@@ -582,8 +615,9 @@ public class Mario extends Sprite // cloneable
 	}
 
 	public void stomp(Shell shell) {
-		if (getDeathTime() > 0)
+		if (getDeathTime() > 0){
 			return;
+		}
 
 		if (keys[KEY_SPEED] && shell.getFacing() == 0) {
 			setCarried(shell);
@@ -603,10 +637,7 @@ public class Mario extends Sprite // cloneable
 	}
 
 	public void hurt() {
-		if (getDeathTime() > 0 || isMarioInvulnerable())
-			return;
-
-		if (invulnerableTime > 0)
+		if (getDeathTime() > 0 || isMarioInvulnerable() || invulnerableTime > 0)
 			return;
 
 		timesHurt++;
@@ -652,8 +683,9 @@ public class Mario extends Sprite // cloneable
 	}
 
 	public void getMushroom() {
-		if (getDeathTime() > 0)
+		if (getDeathTime() > 0){
 			return;
+		}
 
 		if (!isLarge()) {
 			powerUpTime = 3 * FractionalPowerUpTime;
@@ -675,8 +707,9 @@ public class Mario extends Sprite // cloneable
 	}
 
 	public void stomp(BulletBill bill) {
-		if (getDeathTime() > 0)
+		if (getDeathTime() > 0){
 			return;
+		}
 
 		float targetY = bill.y - BulletBill.getHeight() / 2;
 		move(0, targetY - y);
@@ -693,8 +726,9 @@ public class Mario extends Sprite // cloneable
 	public byte getKeyMask() {
 		int mask = 0;
 		for (int i = 0; i < 7; i++) {
-			if (keys[i])
+			if (keys[i]){
 				mask |= (1 << i);
+			}
 		}
 		return (byte) mask;
 	}

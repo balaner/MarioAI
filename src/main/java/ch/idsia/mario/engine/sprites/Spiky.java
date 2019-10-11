@@ -39,7 +39,6 @@ public class Spiky extends Enemy {
         wingTime++;
         if (deadTime > 0) {
             deadTime--;
-
             if (deadTime == 0) {
                 deadTime = 1;
                 for (int i = 0; i < 8; i++) {
@@ -58,7 +57,6 @@ public class Spiky extends Enemy {
             return;
         }
 
-
         float sideWaysSpeed = 1.75f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
 
@@ -70,7 +68,6 @@ public class Spiky extends Enemy {
         {
             facing = -1;
         }
-
         xa = facing * sideWaysSpeed;
 
         xFlipPic = facing == -1;
@@ -83,39 +80,32 @@ public class Spiky extends Enemy {
         {
             runFrame = 1;
         }
-
-
         if (!move(xa, 0)) facing = -facing;
         onGround = false;
         move(0, ya);
-
         ya *= winged ? 0.95f : 0.85f;
         if (onGround)
         {
             xa *= GROUND_INERTIA;
+            if (winged)
+            {
+                ya = -10;
+                runFrame = wingTime / 4 % 2;
+            }
         }
         else
         {
             xa *= AIR_INERTIA;
-        }
-
-        if (!onGround)
-        {
             if (winged)
             {
                 ya += 0.6f;
+                runFrame = wingTime / 4 % 2;
             }
             else
             {
                 ya += 2;
             }
         }
-        else if (winged)
-        {
-            ya = -10;
-        }
-
-        if (winged) runFrame = wingTime / 4 % 2;
 
         xPic = runFrame;
     }
@@ -124,52 +114,86 @@ public class Spiky extends Enemy {
     {
         while (xa > 8)
         {
-            if (!move(8, 0)) return false;
+            if (!move(8, 0)) {
+            	return false;
+            }
             xa -= 8;
         }
         while (xa < -8)
         {
-            if (!move(-8, 0)) return false;
+            if (!move(-8, 0)) {
+            	return false;
+            }
             xa += 8;
         }
         while (ya > 8)
         {
-            if (!move(0, 8)) return false;
+            if (!move(0, 8)) {
+            	return false;
+            }
             ya -= 8;
         }
         while (ya < -8)
         {
-            if (!move(0, -8)) return false;
+            if (!move(0, -8)) {
+            	return false;
+            }
             ya += 8;
         }
 
         boolean collide = false;
         if (ya > 0)
         {
-            if (isBlocking(x + xa - width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
         }
         if (ya < 0)
         {
-            if (isBlocking(x + xa, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
+            if (isBlocking(x + xa, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
         }
         if (xa > 0)
         {
-            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
     //        if (avoidCliffs && onGround && !spriteContext.levelIsBlocking((int) ((x + xa + width) / 16), (int) ((y) / 16 + 1), xa, 1)) collide = true;
         }
         if (xa < 0)
         {
-            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya - height, xa, ya)){
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
       //      if (avoidCliffs && onGround && !spriteContext.levelIsBlocking((int) ((x + xa - width) / 16), (int) ((y) / 16 + 1), xa, 1)) collide = true;
         }
@@ -208,7 +232,9 @@ public class Spiky extends Enemy {
 	
 	public boolean fireballCollideCheck(Fireball fireball)
     {
-        if (deadTime != 0) return false;
+        if (deadTime != 0) {
+        	return false;
+        }
 
         float xD = fireball.x - x;
         float yD = fireball.y - y;
@@ -229,5 +255,4 @@ public class Spiky extends Enemy {
     public void render(Graphics og) {
     	super.render(og, kind);
     }
-
 }

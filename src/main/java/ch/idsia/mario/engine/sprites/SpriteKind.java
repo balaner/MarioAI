@@ -17,7 +17,6 @@ public enum SpriteKind {
 	KIND_COIN_ANIM(22),
 	KIND_FIREBALL(23),
 	KIND_UNDEF(-1);
-	
 	byte number;
 	
 	SpriteKind(int number) {

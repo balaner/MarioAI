@@ -21,14 +21,10 @@ public class FlowerEnemy extends Enemy //cloneable
         this.height = 12;
         this.width = 2;
         yPic = yPicPreset;
-        
         yStart = y; 
         ya = -8;
-        
         this.y-=1;
-        
         this.layer = 0;
-        
         for (int i=0; i<4; i++)
         {
             move();
@@ -37,7 +33,6 @@ public class FlowerEnemy extends Enemy //cloneable
     
     public FlowerEnemy(LevelScene alreadyCopied, FlowerEnemy toCopy) {
     	super(alreadyCopied, toCopy);
-    	
     	this.tick=toCopy.tick;
     	this.yStart=toCopy.yStart;
     	this.jumpTime=toCopy.jumpTime;
@@ -48,7 +43,6 @@ public class FlowerEnemy extends Enemy //cloneable
         if (deadTime > 0)
         {
             deadTime--;
-
             if (deadTime == 0)
             {
                 deadTime = 1;
@@ -58,21 +52,16 @@ public class FlowerEnemy extends Enemy //cloneable
                 }
                 spriteContext.removeSprite(this);
             }
-
             x += xa;
             y += ya;
             ya *= 0.95;
             ya += 1;
-
             return;
         }
-
         tick++;
-        
         if (y>=yStart)
         {
             y = yStart;
-
             int xd = (int)(Math.abs(spriteContext.getMarioX()-x));
             jumpTime++;
             if (jumpTime>40 && xd>24)
@@ -88,7 +77,6 @@ public class FlowerEnemy extends Enemy //cloneable
         {
             jumpTime = 0;
         }
-        
         y+=ya;
         ya*=0.9;
         ya+=0.1f;
@@ -100,7 +88,6 @@ public class FlowerEnemy extends Enemy //cloneable
         if (deadTime != 0) {
             return;
         }
-
         float xMarioD = spriteContext.getMarioX() - x;
         float yMarioD = spriteContext.getMarioY() - y;
         if (xMarioD > -width*2-4 && xMarioD < width*2+4) {
@@ -113,18 +100,14 @@ public class FlowerEnemy extends Enemy //cloneable
     public boolean fireballCollideCheck(Fireball fireball)
     {
         if (deadTime != 0) return false;
-
         float xD = fireball.x - x;
         float yD = fireball.y - y;
-
         if (xD > -16 && xD < 16) {
             if (yD > -height && yD < fireball.getHeight()) {
                 xa = fireball.getFacing() * 2;
                 ya = -5;
                 flyDeath = true;
-                
                 this.dead=true;
-                
                 deadTime = 100;
                 winged = false;
                 hPic = -hPic;
@@ -145,5 +128,4 @@ public class FlowerEnemy extends Enemy //cloneable
     public void render(Graphics og) {
     	super.render(og, kind);
     }
-    
 }

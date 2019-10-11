@@ -9,9 +9,7 @@ public class BulletBill extends Sprite //cloneable
     
     private static int height = 12;
     private static final SpriteKind kind = SpriteKind.KIND_BULLET_BILL;
-
 	private int facing;
-
     private int deadTime = 0;
     private final static int yPicPreset = 5;
     
@@ -21,16 +19,13 @@ public class BulletBill extends Sprite //cloneable
         sheet = Art.enemies;
         height = 12;
         yPic = yPicPreset;
-        
         this.x = x;
         this.y = y;
         this.spriteContext = world;
         xPicO = 8;
         yPicO = 31;
-
         facing = 0;
         wPic = 16;
-
         xPic = 0;
         ya = -5;
         this.facing = dir;
@@ -38,7 +33,6 @@ public class BulletBill extends Sprite //cloneable
     
     public BulletBill(LevelScene alreadyCopied,BulletBill toCopy) {
     	super(alreadyCopied, toCopy);
-    	
     	this.facing=toCopy.facing;
     	this.dead=toCopy.dead;
     	this.deadTime=toCopy.deadTime;
@@ -47,7 +41,6 @@ public class BulletBill extends Sprite //cloneable
     public void collideCheck()
     {
         if (dead) return;
-
         float xMarioD = spriteContext.getMarioX() - x;
         float yMarioD = spriteContext.getMarioY() - y;
         if (xMarioD > -16 && xMarioD < 16)
@@ -58,7 +51,6 @@ public class BulletBill extends Sprite //cloneable
                 {
                     spriteContext.marioStomp(this);
                     dead = true;
-
                     xa = 0;
                     ya = 1;
                     deadTime = 100;
@@ -86,12 +78,10 @@ public class BulletBill extends Sprite //cloneable
                 }
                 spriteContext.removeSprite(this);
             }
-
             x += xa;
             y += ya;
             ya *= 0.95;
             ya += 1;
-
             return;
         }
 
@@ -128,20 +118,16 @@ public class BulletBill extends Sprite //cloneable
     public boolean shellCollideCheck(Shell shell)
     {
         if (deadTime != 0) return false;
-
         float xD = shell.x - x;
         float yD = shell.y - y;
-
         if (xD > -16 && xD < 16)
         {
             if (yD > -getHeight() && yD < Shell.getHeight())
             {
                 dead = true;
-
                 xa = 0;
                 ya = 1;
                 deadTime = 100;
-
                 return true;
             }
         }

@@ -62,7 +62,6 @@ public class Koopa_Green extends Koopa {
         wingTime++;
         if (deadTime > 0) {
             deadTime--;
-
             if (deadTime == 0) {
                 deadTime = 1;
                 for (int i = 0; i < 8; i++) {
@@ -81,10 +80,8 @@ public class Koopa_Green extends Koopa {
             return;
         }
 
-
         float sideWaysSpeed = 1.75f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
-
         if (xa > 2)
         {
             facing = 1;
@@ -107,7 +104,6 @@ public class Koopa_Green extends Koopa {
             runFrame = 1;
         }
 
-
         if (!move(xa, 0)) facing = -facing;
         onGround = false;
         move(0, ya);
@@ -116,36 +112,34 @@ public class Koopa_Green extends Koopa {
         if (onGround)
         {
             xa *= GROUND_INERTIA;
+            if (winged)
+            {
+                ya = -10;
+                runFrame = wingTime / 4 % 2;
+            }
         }
         else
         {
             xa *= AIR_INERTIA;
-        }
-
-        if (!onGround)
-        {
             if (winged)
             {
                 ya += 0.6f;
+                runFrame = wingTime / 4 % 2;
             }
             else
             {
                 ya += 2;
             }
         }
-        else if (winged)
-        {
-            ya = -10;
-        }
-
-        if (winged) runFrame = wingTime / 4 % 2;
 
         xPic = runFrame;
     }
 	
 	public boolean fireballCollideCheck(Fireball fireball)
     {
-        if (deadTime != 0) return false;
+        if (deadTime != 0) {
+        	return false;
+        }
 
         float xD = fireball.x - x;
         float yD = fireball.y - y;
@@ -156,9 +150,7 @@ public class Koopa_Green extends Koopa {
                 xa = fireball.getFacing() * 2;
                 ya = -5;
                 flyDeath = true;
-                
                 this.dead=true;
-                
                 deadTime = 100;
                 winged = false;
                 hPic = -hPic;
@@ -175,52 +167,85 @@ public class Koopa_Green extends Koopa {
     {
         while (xa > 8)
         {
-            if (!move(8, 0)) return false;
+            if (!move(8, 0)) {
+            	return false;
+            }
             xa -= 8;
         }
         while (xa < -8)
         {
-            if (!move(-8, 0)) return false;
+            if (!move(-8, 0)) {
+            	return false;
+            }
             xa += 8;
         }
         while (ya > 8)
         {
-            if (!move(0, 8)) return false;
+            if (!move(0, 8)) {
+            	return false;
+            }
             ya -= 8;
         }
         while (ya < -8)
         {
-            if (!move(0, -8)) return false;
+            if (!move(0, -8)) {
+            	return false;
+            }
             ya += 8;
         }
 
         boolean collide = false;
         if (ya > 0)
         {
-            if (isBlocking(x + xa - width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya, xa, 0)) collide = true;
-            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) collide = true;
-            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) collide = true;
+            if (isBlocking(x + xa - width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya, xa, 0)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa - width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
+            else if (isBlocking(x + xa + width, y + ya + 1, xa, ya)) {
+            	collide = true;
+            }
         }
         if (ya < 0)
         {
-            if (isBlocking(x + xa, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
+            if (isBlocking(x + xa, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            else if (collide || isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
         }
         if (xa > 0)
         {
-            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa + width, y + ya, xa, ya)) collide = true;
+            if (isBlocking(x + xa + width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa + width, y + ya, xa, ya)) {
+            	collide = true;
+            }
 
         }
         if (xa < 0)
         {
-            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) collide = true;
-            if (isBlocking(x + xa - width, y + ya, xa, ya)) collide = true;
-
+            if (isBlocking(x + xa - width, y + ya - height, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya - height / 2, xa, ya)) {
+            	collide = true;
+            }
+            if (isBlocking(x + xa - width, y + ya, xa, ya)) {
+            	collide = true;
+            }
         }
 
         if (collide)

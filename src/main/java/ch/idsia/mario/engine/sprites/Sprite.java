@@ -6,10 +6,8 @@ import java.awt.*;
 public abstract class Sprite {
 
     protected LevelScene spriteContext;
-    
     protected float xOld, yOld, x, y, xa, ya;
     protected int mapX, mapY;
-    
     protected int xPic; //coords for picture
     protected int yPic;
     protected int wPic = 32; //width of picture
@@ -19,19 +17,14 @@ public abstract class Sprite {
     protected boolean yFlipPic = false;
     protected Image[][] sheet;
     protected boolean visible = true;
-    
     protected int layer = 1;
-
     protected boolean dead=false;
-
     protected boolean isClone=false;
 
 	protected Sprite() { //got to stay
-    	
     }
     
-    protected Sprite(LevelScene alreadyCopied,Sprite toCopy) { 
-    	
+    protected Sprite(LevelScene alreadyCopied,Sprite toCopy) {
 		this.xOld = toCopy.xOld;
 		this.yOld = toCopy.yOld;
 		this.x = toCopy.x;
@@ -52,9 +45,7 @@ public abstract class Sprite {
 		this.visible = toCopy.visible;
 		this.layer = toCopy.layer;
 		this.dead=toCopy.dead;
-		
 		this.isClone=true;
-	
 		//if(toCopy.spriteTemplate!=null)this.spriteTemplate = new SpriteTemplate(this, toCopy.spriteTemplate); //needs copy constructor
 		this.spriteContext=alreadyCopied;
     }
@@ -75,10 +66,8 @@ public abstract class Sprite {
     
     public void render(Graphics og) {
         if (!visible) return;
-
         int xPixel = (int)x-xPicO;
         int yPixel = (int)y-yPicO;
-
         og.drawImage(sheet[xPic][yPic], xPixel+(xFlipPic?wPic:0), yPixel+(yFlipPic?hPic:0), xFlipPic?-wPic:wPic, yFlipPic?-hPic:hPic, null);
     }
     

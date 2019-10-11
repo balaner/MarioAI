@@ -7,7 +7,6 @@ public class Sparkle extends Sprite //cloneable
 {
     private int life;
     private int xPicStart;
-    
     private final static int yPicPreset = 1;
     private static final SpriteKind kind = SpriteKind.KIND_SPARCLE;
     
@@ -30,17 +29,14 @@ public class Sparkle extends Sprite //cloneable
         xPicStart = xPic;
         this.xPicO = 4;
         this.yPicO = 4;
-        
         wPic = 8;
         hPic = 8;
         life = 10+(int)(Math.random()*timeSpan);
-        
         yPic = yPicPreset;
     }
     
     public Sparkle(LevelScene alreadyCopied,Sparkle toCopy) {
     	super(alreadyCopied,toCopy);
-    	
     	this.life=toCopy.life;
     	this.xPicStart=toCopy.xPicStart;
     	yPic = yPicPreset;
@@ -52,7 +48,6 @@ public class Sparkle extends Sprite //cloneable
             xPic = 7;
         else
             xPic = xPicStart+(10-life)*4/10;
-        
         if (life--<0) this.spriteContext.removeSprite(this);
         
         x+=xa;

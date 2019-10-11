@@ -20,7 +20,6 @@ public class Shell extends Sprite {//cloneable
     private boolean carried; //useless?
     private static final int yPicPreset = 13;
 
-
 	public Shell(LevelScene world, float x, float y) {
         sheet = Art.enemies;
         this.x = x;
@@ -51,7 +50,6 @@ public class Shell extends Sprite {//cloneable
         }
         float xD = fireball.x - x;
         float yD = fireball.y - y;
-
         if (xD > -16 && xD < 16)
         {
             if (yD > -height && yD < fireball.getHeight())
@@ -75,7 +73,6 @@ public class Shell extends Sprite {//cloneable
         if (isCarried() || dead || deadTime>0) {
         	return;
         }
-
         float xMarioD = spriteContext.getMarioX() - x;
         float yMarioD = spriteContext.getMarioY() - y;
         if (xMarioD > -16 && xMarioD < 16)
@@ -116,10 +113,8 @@ public class Shell extends Sprite {//cloneable
             spriteContext.checkShellCollide(this);
             return;
         }
-
         if (deadTime > 0) {
             deadTime--;
-
             if (deadTime == 0)
             {
                 deadTime = 1;
@@ -129,17 +124,13 @@ public class Shell extends Sprite {//cloneable
                 }
                 spriteContext.removeSprite(this);
             }
-
             x += xa;
             y += ya;
             ya *= 0.95;
             ya += 1;
-
             return;
         }
-
         if (facing != 0) anim++;
-
         float sideWaysSpeed = 11f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
         if (xa > 2) {
@@ -169,7 +160,6 @@ public class Shell extends Sprite {//cloneable
             ya += 2;
         }
     }
-
 
 	@SuppressWarnings("unused")
 	private boolean move(float xa, float ya) {
@@ -235,7 +225,6 @@ public class Shell extends Sprite {//cloneable
             if (isBlocking(x + xa + width, y + ya, xa, ya)) {
             	collide = true;
             }
-
         }
         if (xa < 0)
         {
@@ -248,7 +237,6 @@ public class Shell extends Sprite {//cloneable
             if (isBlocking(x + xa - width, y + ya, xa, ya)) {
             	collide = true;
             }
-
         }
 
         if (collide)
@@ -327,7 +315,6 @@ public class Shell extends Sprite {//cloneable
                 {
                     spriteContext.setMarioCarried(null);
                 }
-
                 die();
                 shell.die();
                 return true;

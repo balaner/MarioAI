@@ -3,7 +3,6 @@ package ch.idsia.mario.engine.sprites;
 import ch.idsia.mario.engine.Art;
 import ch.idsia.mario.engine.LevelScene;
 
-
 public class BulletBill extends Sprite //cloneable
 {
     
@@ -84,9 +83,7 @@ public class BulletBill extends Sprite //cloneable
             ya += 1;
             return;
         }
-
         float sideWaysSpeed = 4f;
-
         xa = facing * sideWaysSpeed;
         xFlipPic = facing == -1;
         move(xa, 0);
@@ -101,10 +98,8 @@ public class BulletBill extends Sprite //cloneable
     public boolean fireballCollideCheck(Fireball fireball)
     {
         if (deadTime != 0) return false;
-
         float xD = fireball.x - x;
         float yD = fireball.y - y;
-
         if (xD > -16 && xD < 16)
         {
             if (yD > -getHeight() && yD < fireball.getHeight())

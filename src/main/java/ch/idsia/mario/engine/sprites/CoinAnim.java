@@ -3,7 +3,6 @@ package ch.idsia.mario.engine.sprites;
 import ch.idsia.mario.engine.Art;
 import ch.idsia.mario.engine.LevelScene;
 
-
 public class CoinAnim extends Sprite //cloneable
 {
     private int life = 16;
@@ -40,7 +39,6 @@ public class CoinAnim extends Sprite //cloneable
                 }
             }
         }
-
         xPic = life & 3;
         x += xa;
         y += ya;

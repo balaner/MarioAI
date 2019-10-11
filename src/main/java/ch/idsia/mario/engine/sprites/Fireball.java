@@ -33,7 +33,6 @@ public class Fireball extends Sprite //cloneable
         xPic = 4;
         ya = 4;
         yPic = yPicPreset;
-        
         world.usedFireball();
     }
     
@@ -46,7 +45,6 @@ public class Fireball extends Sprite //cloneable
     	this.dead=toCopy.dead;
     	this.deadTime=toCopy.deadTime;
         yPic = yPicPreset;
-    	
     }
 
     public void move()
@@ -77,7 +75,6 @@ public class Fireball extends Sprite //cloneable
         xFlipPic = facing == -1;
         runTime += (Math.abs(xa)) + 5;
         xPic = (anim) % 4;
-
         if (!move(xa, 0))
         {
             die();
@@ -128,7 +125,6 @@ public class Fireball extends Sprite //cloneable
             }
             ya += 8;
         }
-
         boolean collide = false;
         if (ya > 0)
         {
@@ -168,7 +164,6 @@ public class Fireball extends Sprite //cloneable
             if (isBlocking(x + xa + width, y + ya, xa, ya)) {
             	collide = true;
             }
-
             if (onGround && !spriteContext.levelIsBlocking((int) ((x + xa + width) / 16), (int) ((y) / 16 + 1), xa, 1)) {
             	collide = true;
             }
@@ -184,7 +179,6 @@ public class Fireball extends Sprite //cloneable
             if (isBlocking(x + xa - width, y + ya, xa, ya)) {
             	collide = true;
             }
-
             if (onGround && !spriteContext.levelIsBlocking((int) ((x + xa - width) / 16), (int) ((y) / 16 + 1), xa, 1)) {
             	collide = true;
             }

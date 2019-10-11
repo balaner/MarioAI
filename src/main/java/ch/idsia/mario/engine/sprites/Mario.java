@@ -23,7 +23,6 @@ public class Mario extends Sprite // cloneable
 
 	public void reset(MODE marioMode) {
 		setMode(marioMode);
-
 		resetCoins();
 		gainedMushrooms = 0;
 		gainedFlowers = 0;
@@ -40,7 +39,6 @@ public class Mario extends Sprite // cloneable
 			else
 				return Mario.MODE.MODE_LARGE;
 		}
-
 		else
 			return Mario.MODE.MODE_SMALL;
 	}
@@ -77,10 +75,8 @@ public class Mario extends Sprite // cloneable
 	public static final int KEY_JUMP = 3;
 	public static final int KEY_SPEED = 4;
 	public static final int KEY_UP = 5;
-
 	private static final float GROUND_INERTIA = 0.89f;
 	private static final float AIR_INERTIA = 0.89f;
-
 	private boolean[] keys;
 	private float runTime;
 	private boolean wasOnGround = false;
@@ -92,19 +88,14 @@ public class Mario extends Sprite // cloneable
 	private float xJumpSpeed;
 	private float yJumpSpeed;
 	private boolean canShoot = false;
-
 	private static final int width = 4;
 	private int height = 24;
-
 	private int facing;
 	private int powerUpTime = 0; // exclude pause for rendering changes
-
 	private int xDeathPos, yDeathPos;
-
 	private int deathTime = 0;
 	private int winTime = 0;
 	private int invulnerableTime = 0;
-
 	private Sprite carried = null;
 
 	public Mario(LevelScene world, MODE mode) {
@@ -112,9 +103,7 @@ public class Mario extends Sprite // cloneable
 		keys = Scene.keys; // SK: in fact, this is already redundant due to using Agent
 		x = 32;
 		y = 0;
-		
 		facing = 1;
-
 		if (mode == MODE.MODE_FIRE) setLarge(true, true);
 		else if (mode == MODE.MODE_LARGE) setLarge(true, false);
 		else setLarge(false, false);
@@ -122,7 +111,6 @@ public class Mario extends Sprite // cloneable
 
 	public Mario(LevelScene alreadyCopied, Shell alreadyCopiedCarried, Mario toCopy) {
 		super(alreadyCopied, toCopy);
-
 		this.large = toCopy.large;
 		this.fire = toCopy.fire;
 		this.coins = toCopy.coins;
@@ -165,53 +153,46 @@ public class Mario extends Sprite // cloneable
 	private void blink(boolean on) {
 		this.large = (on ? newLarge : lastLarge);
 		this.fire = on ? newFire : lastFire;
-
 		if (isLarge()) {
 			sheet = Art.mario;
-			if (fire)
+			if (fire){
 				sheet = Art.fireMario;
-
+			}
 			xPicO = 16;
 			yPicO = 31;
 			wPic = hPic = 32;
 		} else {
 			sheet = Art.smallMario;
-
 			xPicO = 8;
 			yPicO = 15;
 			wPic = hPic = 16;
 		}
-
 		calcPic();
 	}
 
 	private void setLarge(boolean large, boolean fire) {
-		if (fire)
+		if (fire){
 			large = true;
-		if (!large)
+		}
+		if (!large){
 			fire = false;
-
+		}
 		lastLarge = this.large;
 		lastFire = this.fire;
-
 		this.large = large;
 		this.fire = fire;
-
 		newLarge = this.large;
 		newFire = this.fire;
-
 		blink(true);
 	}
 
 	public void move() {
 		if (winTime > 0) {
 			winTime = (winTime + 1);
-
 			xa = 0;
 			ya = 0;
 			return;
 		}
-
 		if (getDeathTime() > 0) { //falling down after death
 			deathTime = (getDeathTime() + 1);
 			if (getDeathTime() < 11) {
@@ -226,7 +207,6 @@ public class Mario extends Sprite // cloneable
 			y += ya;
 			return;
 		}
-
 		if (powerUpTime != 0) {
 			if (powerUpTime > 0) {
 				powerUpTime--;
@@ -235,17 +215,13 @@ public class Mario extends Sprite // cloneable
 				powerUpTime++;
 				blink(((-powerUpTime / 3) & 1) == 0);
 			}
-
 			calcPic();
 			return;
 		}
-
 		if (invulnerableTime > 0) invulnerableTime--;
 		visible = ((invulnerableTime / 2) & 1) == 0;
-
 		wasOnGround = onGround;
 		float sideWaysSpeed = keys[KEY_SPEED] ? 1.2f : 0.6f;
-
 		if (onGround) {
 			if (keys[KEY_DOWN] && isLarge()) {
 				ducking = true;
@@ -253,14 +229,12 @@ public class Mario extends Sprite // cloneable
 				ducking = false;
 			}
 		}
-
 		if (xa > 2) {
 			facing = 1;
 		}
 		if (xa < -2) {
 			facing = -1;
 		}
-
 		if (keys[KEY_JUMP] || (jumpTime < 0 && !onGround && !sliding)) {
 			if (jumpTime < 0) {
 				xa = xJumpSpeed;
@@ -290,7 +264,7 @@ public class Mario extends Sprite // cloneable
 		} else {
 			jumpTime = 0;
 		}
-
+		
 		if (keys[KEY_LEFT] && !ducking) {
 			if (facing == 1)
 				sliding = false;
@@ -298,7 +272,7 @@ public class Mario extends Sprite // cloneable
 			if (jumpTime >= 0)
 				facing = -1;
 		}
-
+		
 		if (keys[KEY_RIGHT] && !ducking) {
 			if (facing == -1)
 				sliding = false;
@@ -316,19 +290,14 @@ public class Mario extends Sprite // cloneable
 		}
 		
 		canShoot = !keys[KEY_SPEED];
-
 		mayJump = (onGround || sliding) && !keys[KEY_JUMP];
-
 		xFlipPic = facing == -1;
-
 		runTime += (Math.abs(xa)) + 5;
 		if (Math.abs(xa) < 0.5f) {
 			runTime = 0;
 			xa = 0;
 		}
-
 		calcPic();
-
 		if (sliding) {
 			for (int i = 0; i < 1; i++) {
 				spriteContext.addSprite(new Sparkle(spriteContext, (int) (x + Math.random() * 4 - 2) + facing * 8,
@@ -337,20 +306,18 @@ public class Mario extends Sprite // cloneable
 			}
 			ya *= 0.5f;
 		}
-
 		onGround = false;
 		move(xa, 0);
 		move(0, ya);
-
 		if (y > spriteContext.getLevelHight() * 16 + 16) {
 			die(Cause.FALL_TO_DEATH);
 		}
-
+		
 		if (x < 0) {
 			x = 0;
 			xa = 0;
 		}
-
+		
 		if (x > spriteContext.getLevelXExit() * 16) {
 			x = spriteContext.getLevelXExit() * 16;
 			win();
@@ -381,7 +348,6 @@ public class Mario extends Sprite // cloneable
 
 	private void calcPic() {
 		int runFrame = 0;
-
 		if (isLarge()) {
 			runFrame = ((int) (runTime / 20)) % 4;
 			if (runFrame == 3)
@@ -427,12 +393,10 @@ public class Mario extends Sprite // cloneable
 				}
 			}
 		}
-
 		if (onGround && ((facing == -1 && xa > 0) || (facing == 1 && xa < 0))) {
 			if (xa > 1 || xa < -1){
 				runFrame = isLarge() ? 9 : 7;
 			}
-
 			if (xa > 3 || xa < -3) {
 				for (int i = 0; i < 3; i++) {
 					spriteContext.addSprite(
@@ -449,7 +413,6 @@ public class Mario extends Sprite // cloneable
 		} else {
 			height = 12;
 		}
-
 		xPic = runFrame;
 	}
 
@@ -543,7 +506,6 @@ public class Mario extends Sprite // cloneable
 				sliding = false;
 			}
 		}
-
 		if (collide) {
 			if (xa < 0) {
 				x = (int) ((x - width) / 16) * 16 + width;
@@ -578,22 +540,20 @@ public class Mario extends Sprite // cloneable
 		}
 
 		boolean blocking = spriteContext.levelIsBlocking(x, y, xa, ya);
-
 		byte block = spriteContext.levelGetBlock(x, y);
-
 		if (((Level.TILE_BEHAVIORS[block & 0xff]) & Level.BIT_PICKUPABLE) > 0) {
 			getCoin();
 			spriteContext.setLevelBlock(x, y, (byte) 0);
-			for (int xx = 0; xx < 2; xx++)
-				for (int yy = 0; yy < 2; yy++)
+			for (int xx = 0; xx < 2; xx++) {
+				for (int yy = 0; yy < 2; yy++) {
 					spriteContext.addSprite(new Sparkle(spriteContext, x * 16 + xx * 8 + (int) (Math.random() * 8),
 							y * 16 + yy * 8 + (int) (Math.random() * 8), 0, 0, 0, 5));
+				}
+			}
 		}
-
 		if (blocking && ya < 0) {
 			spriteContext.bump(x, y, isLarge());
 		}
-
 		return blocking;
 	}
 
@@ -601,10 +561,8 @@ public class Mario extends Sprite // cloneable
 		if (getDeathTime() > 0 ){
 			return;
 		}
-
 		float targetY = enemy.y - enemy.height / 2;
 		move(0, targetY - y);
-
 		xJumpSpeed = 0;
 		yJumpSpeed = -1.9f;
 		jumpTime = 8;
@@ -618,14 +576,12 @@ public class Mario extends Sprite // cloneable
 		if (getDeathTime() > 0){
 			return;
 		}
-
 		if (keys[KEY_SPEED] && shell.getFacing() == 0) {
 			setCarried(shell);
 			shell.setCarried(true);
 		} else {
 			float targetY = shell.y - Shell.getHeight() / 2;
 			move(0, targetY - y);
-
 			xJumpSpeed = 0;
 			yJumpSpeed = -1.9f;
 			jumpTime = 8;
@@ -637,9 +593,9 @@ public class Mario extends Sprite // cloneable
 	}
 
 	public void hurt() {
-		if (getDeathTime() > 0 || isMarioInvulnerable() || invulnerableTime > 0)
+		if (getDeathTime() > 0 || isMarioInvulnerable() || invulnerableTime > 0){
 			return;
-
+		}
 		timesHurt++;
 		if (isLarge()) {
 			powerUpTime = -3 * FractionalPowerUpTime;
@@ -671,8 +627,9 @@ public class Mario extends Sprite // cloneable
 	}
 
 	public void getFlower() {
-		if (getDeathTime() > 0)
+		if (getDeathTime() > 0){
 			return;
+		}
 
 		if (!fire) {
 			powerUpTime = 3 * FractionalPowerUpTime;
@@ -686,18 +643,15 @@ public class Mario extends Sprite // cloneable
 		if (getDeathTime() > 0){
 			return;
 		}
-
 		if (!isLarge()) {
 			powerUpTime = 3 * FractionalPowerUpTime;
 			setLarge(true, false);
 		}
-
 		++gainedMushrooms;
 	}
 
 	public void kick(Shell shell) {
-		 if (deathTime > 0) return;
-
+		if (deathTime > 0) return;
 		if (keys[KEY_SPEED]) {
 			setCarried(shell);
 			shell.setCarried(true);
@@ -710,10 +664,8 @@ public class Mario extends Sprite // cloneable
 		if (getDeathTime() > 0){
 			return;
 		}
-
 		float targetY = bill.y - BulletBill.getHeight() / 2;
 		move(0, targetY - y);
-
 		xJumpSpeed = 0;
 		yJumpSpeed = -1.9f;
 		jumpTime = 8;
@@ -844,5 +796,4 @@ public class Mario extends Sprite // cloneable
 	public SpriteKind getKind() {
 		return kind;
 	}
-
 }

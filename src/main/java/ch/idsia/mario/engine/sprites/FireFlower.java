@@ -9,7 +9,7 @@ public class FireFlower extends Sprite //cloneable
     private static final int height = 12;
     private static final SpriteKind kind = SpriteKind.KIND_FIRE_FLOWER;
     private int life;
-
+    
     public FireFlower(LevelScene world, int x, int y)
     { 
     	this.spriteContext=world;

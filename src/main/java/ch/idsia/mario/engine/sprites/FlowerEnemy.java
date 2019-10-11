@@ -80,7 +80,6 @@ public class FlowerEnemy extends Enemy //cloneable
         y+=ya;
         ya*=0.9;
         ya+=0.1f;
-        
         xPic = ((tick/2)&1)*2+((tick/6)&1);
     }
 

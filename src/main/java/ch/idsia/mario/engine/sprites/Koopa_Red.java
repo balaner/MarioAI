@@ -26,7 +26,6 @@ public class Koopa_Red extends Koopa {
         if (deadTime != 0) {
             return;
         }
-
         float xMarioD = spriteContext.getMarioX() - x;
         float yMarioD = spriteContext.getMarioY() - y;
         if (xMarioD > -width*2-4 && xMarioD < width*2+4) {
@@ -43,9 +42,7 @@ public class Koopa_Red extends Koopa {
                         this.dead=true;
                         deadTime = 10;
                         winged = false;
-
                         spriteContext.addSprite(new Shell_Red(spriteContext, x, y));
-                        
 //                      System.out.println("collideCheck and stomp");
                         spriteContext.incrementKilledCreaturesTotal();
                         spriteContext.killedCreatureByStomp();;
@@ -62,7 +59,6 @@ public class Koopa_Red extends Koopa {
         wingTime++;
         if (deadTime > 0) {
             deadTime--;
-
             if (deadTime == 0) {
                 deadTime = 1;
                 for (int i = 0; i < 8; i++) {
@@ -70,7 +66,6 @@ public class Koopa_Red extends Koopa {
                 }
                 spriteContext.removeSprite(this);
             }
-
             if (flyDeath)
             {
                 x += xa;
@@ -80,11 +75,8 @@ public class Koopa_Red extends Koopa {
             }
             return;
         }
-
-
         float sideWaysSpeed = 1.75f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
-
         if (xa > 2)
         {
             facing = 1;
@@ -93,25 +85,15 @@ public class Koopa_Red extends Koopa {
         {
             facing = -1;
         }
-
         xa = facing * sideWaysSpeed;
-
         xFlipPic = facing == -1;
-
         runTime += (Math.abs(xa)) + 5;
-
         int runFrame = ((int) (runTime / 20)) % 2;
-
-        if (!onGround)
-        {
-            runFrame = 1;
+        if (!move(xa, 0)) {
+        	facing = -facing;
         }
-
-
-        if (!move(xa, 0)) facing = -facing;
         onGround = false;
         move(0, ya);
-
         ya *= winged ? 0.95f : 0.85f;
         if (onGround)
         {
@@ -125,6 +107,7 @@ public class Koopa_Red extends Koopa {
         else
         {
             xa *= AIR_INERTIA;
+            runFrame = 1;
             if (winged)
             {
                 ya += 0.6f;
@@ -135,7 +118,6 @@ public class Koopa_Red extends Koopa {
                 ya += 2;
             }
         }
-
         xPic = runFrame;
     }
 
@@ -169,7 +151,6 @@ public class Koopa_Red extends Koopa {
             }
             ya += 8;
         }
-
         boolean collide = false;
         if (ya > 0)
         {
@@ -209,7 +190,6 @@ public class Koopa_Red extends Koopa {
             if (isBlocking(x + xa + width, y + ya, xa, ya)) {
             	collide = true;
             }
-
             if (onGround && !spriteContext.levelIsBlocking((int) ((x + xa + width) / 16), (int) ((y) / 16 + 1), xa, 1)) {
             	collide = true;
             }
@@ -225,12 +205,10 @@ public class Koopa_Red extends Koopa {
             if (isBlocking(x + xa - width, y + ya, xa, ya)) {
             	collide = true;
             }
-
             if (onGround && !spriteContext.levelIsBlocking((int) ((x + xa - width) / 16), (int) ((y) / 16 + 1), xa, 1)) {
             	collide = true;
             }
         }
-
         if (collide)
         {
             if (xa < 0)
@@ -268,19 +246,14 @@ public class Koopa_Red extends Koopa {
         if (deadTime != 0) {
         	return false;
         }
-
         float xD = fireball.x - x;
         float yD = fireball.y - y;
-
         if (xD > -16 && xD < 16) {
             if (yD > -height && yD < fireball.getHeight()) {
-                
                 xa = fireball.getFacing() * 2;
                 ya = -5;
                 flyDeath = true;
-                
                 this.dead=true;
-                
                 deadTime = 100;
                 winged = false;
                 hPic = -hPic;
@@ -301,5 +274,4 @@ public class Koopa_Red extends Koopa {
     public void render(Graphics og) {
     	super.render(og, kind);
     }
-
 }

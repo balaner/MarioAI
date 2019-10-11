@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import ch.idsia.mario.engine.LevelScene;
 
 public class Goomba extends Enemy {
-
 	private final static int yPicPreset = 2;
 	private static final SpriteKind kind = SpriteKind.KIND_GOOMBA;
 	
@@ -25,7 +24,6 @@ public class Goomba extends Enemy {
         if (deadTime != 0) {
             return;
         }
-
         float xMarioD = spriteContext.getMarioX() - x;
         float yMarioD = spriteContext.getMarioY() - y;
         if (xMarioD > -width*2-4 && xMarioD < width*2+4) {
@@ -64,7 +62,6 @@ public class Goomba extends Enemy {
                 }
                 spriteContext.removeSprite(this);
             }
-
             if (flyDeath)
             {
                 x += xa;
@@ -74,10 +71,8 @@ public class Goomba extends Enemy {
             }
             return;
         }
-
         float sideWaysSpeed = 1.75f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
-
         if (xa > 2)
         {
             facing = 1;
@@ -86,17 +81,16 @@ public class Goomba extends Enemy {
         {
             facing = -1;
         }
-
         xa = facing * sideWaysSpeed;
         xFlipPic = facing == -1;
         runTime += (Math.abs(xa)) + 5;
         int runFrame = ((int) (runTime / 20)) % 2;
-
-        if (!move(xa, 0)) facing = -facing;
+        if (!move(xa, 0))  {
+        	facing = -facing;
+        }
         onGround = false;
         move(0, ya);
         ya *= winged ? 0.95f : 0.85f;
-        
         if (onGround)
         {
             xa *= GROUND_INERTIA;
@@ -120,7 +114,6 @@ public class Goomba extends Enemy {
                 ya += 2;
             }
         }
-
         xPic = runFrame;
     }
 	
@@ -154,7 +147,6 @@ public class Goomba extends Enemy {
             }
             ya += 8;
         }
-
         boolean collide = false;
         if (ya > 0)
         {
@@ -245,10 +237,8 @@ public class Goomba extends Enemy {
 	public boolean fireballCollideCheck(Fireball fireball)
     {
         if (deadTime != 0) return false;
-
         float xD = fireball.x - x;
         float yD = fireball.y - y;
-
         if (xD > -16 && xD < 16) {
             if (yD > -height && yD < fireball.getHeight()) {
                 

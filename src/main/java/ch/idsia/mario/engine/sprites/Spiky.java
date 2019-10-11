@@ -25,7 +25,6 @@ public class Spiky extends Enemy {
         if (deadTime != 0) {
             return;
         }
-
         float xMarioD = spriteContext.getMarioX() - x;
         float yMarioD = spriteContext.getMarioY() - y;
         if (xMarioD > -width*2-4 && xMarioD < width*2+4) {
@@ -46,7 +45,6 @@ public class Spiky extends Enemy {
                 }
                 spriteContext.removeSprite(this);
             }
-
             if (flyDeath)
             {
                 x += xa;
@@ -59,7 +57,6 @@ public class Spiky extends Enemy {
 
         float sideWaysSpeed = 1.75f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
-
         if (xa > 2)
         {
             facing = 1;
@@ -69,18 +66,12 @@ public class Spiky extends Enemy {
             facing = -1;
         }
         xa = facing * sideWaysSpeed;
-
         xFlipPic = facing == -1;
-
         runTime += (Math.abs(xa)) + 5;
-
         int runFrame = ((int) (runTime / 20)) % 2;
-
-        if (!onGround)
-        {
-            runFrame = 1;
+        if (!move(xa, 0)) {
+        	facing = -facing;
         }
-        if (!move(xa, 0)) facing = -facing;
         onGround = false;
         move(0, ya);
         ya *= winged ? 0.95f : 0.85f;
@@ -96,6 +87,7 @@ public class Spiky extends Enemy {
         else
         {
             xa *= AIR_INERTIA;
+            runFrame = 1;
             if (winged)
             {
                 ya += 0.6f;
@@ -106,7 +98,6 @@ public class Spiky extends Enemy {
                 ya += 2;
             }
         }
-
         xPic = runFrame;
     }
 	
@@ -140,7 +131,6 @@ public class Spiky extends Enemy {
             }
             ya += 8;
         }
-
         boolean collide = false;
         if (ya > 0)
         {
@@ -180,7 +170,6 @@ public class Spiky extends Enemy {
             if (isBlocking(x + xa + width, y + ya, xa, ya)) {
             	collide = true;
             }
-
     //        if (avoidCliffs && onGround && !spriteContext.levelIsBlocking((int) ((x + xa + width) / 16), (int) ((y) / 16 + 1), xa, 1)) collide = true;
         }
         if (xa < 0)
@@ -194,10 +183,8 @@ public class Spiky extends Enemy {
             if (isBlocking(x + xa - width, y + ya, xa, ya)) {
             	collide = true;
             }
-
       //      if (avoidCliffs && onGround && !spriteContext.levelIsBlocking((int) ((x + xa - width) / 16), (int) ((y) / 16 + 1), xa, 1)) collide = true;
         }
-
         if (collide)
         {
             if (xa < 0)
@@ -235,7 +222,6 @@ public class Spiky extends Enemy {
         if (deadTime != 0) {
         	return false;
         }
-
         float xD = fireball.x - x;
         float yD = fireball.y - y;
 

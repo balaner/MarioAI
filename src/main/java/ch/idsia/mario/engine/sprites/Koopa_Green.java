@@ -26,7 +26,6 @@ public class Koopa_Green extends Koopa {
         if (deadTime != 0) {
             return;
         }
-
         float xMarioD = spriteContext.getMarioX() - x;
         float yMarioD = spriteContext.getMarioY() - y;
         if (xMarioD > -width*2-4 && xMarioD < width*2+4) {
@@ -69,7 +68,6 @@ public class Koopa_Green extends Koopa {
                 }
                 spriteContext.removeSprite(this);
             }
-
             if (flyDeath)
             {
                 x += xa;
@@ -79,7 +77,6 @@ public class Koopa_Green extends Koopa {
             }
             return;
         }
-
         float sideWaysSpeed = 1.75f;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
         if (xa > 2)
@@ -90,21 +87,13 @@ public class Koopa_Green extends Koopa {
         {
             facing = -1;
         }
-
         xa = facing * sideWaysSpeed;
-
         xFlipPic = facing == -1;
-
         runTime += (Math.abs(xa)) + 5;
-
         int runFrame = ((int) (runTime / 20)) % 2;
-
-        if (!onGround)
-        {
-            runFrame = 1;
+        if (!move(xa, 0)) {
+        	facing = -facing;
         }
-
-        if (!move(xa, 0)) facing = -facing;
         onGround = false;
         move(0, ya);
 
@@ -121,6 +110,7 @@ public class Koopa_Green extends Koopa {
         else
         {
             xa *= AIR_INERTIA;
+            runFrame = 1;
             if (winged)
             {
                 ya += 0.6f;
@@ -233,7 +223,6 @@ public class Koopa_Green extends Koopa {
             if (isBlocking(x + xa + width, y + ya, xa, ya)) {
             	collide = true;
             }
-
         }
         if (xa < 0)
         {
@@ -247,7 +236,6 @@ public class Koopa_Green extends Koopa {
             	collide = true;
             }
         }
-
         if (collide)
         {
             if (xa < 0)
@@ -288,5 +276,4 @@ public class Koopa_Green extends Koopa {
     public void render(Graphics og) {
     	super.render(og, kind);
     }
-	
 }

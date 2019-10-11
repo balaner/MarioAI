@@ -36,7 +36,6 @@ public class Mushroom extends Sprite //cloneable
     	facing=toCopy.facing;
     	avoidCliffs=toCopy.avoidCliffs;
     	life=toCopy.life;
-    	
     }
     
     public void collideCheck()
@@ -74,7 +73,9 @@ public class Mushroom extends Sprite //cloneable
         }
         xa = facing * sideWaysSpeed;
         xFlipPic = facing == -1;
-        if (!move(xa, 0)) facing = -facing;
+        if (!move(xa, 0)) {
+        	facing = -facing;
+        }
         onGround = false;
         move(0, ya);
         ya *= 0.85f;
@@ -217,11 +218,8 @@ public class Mushroom extends Sprite //cloneable
         int x = (int) (_x / 16);
         int y = (int) (_y / 16);
         if (x == (int) (this.x / 16) && y == (int) (this.y / 16)) return false;
-
         boolean blocking = spriteContext.levelIsBlocking(x, y, xa, ya);
-
         spriteContext.levelGetBlock(x, y);
-
         return blocking;
     }
 
@@ -238,5 +236,4 @@ public class Mushroom extends Sprite //cloneable
 	public SpriteKind getKind() {
 		return kind;
 	}
-
 }

@@ -64,8 +64,7 @@ class SpriteTest {
         ya*=0.95f;
         assertEquals(ya, anim.ya);
 	}
-void CoinAnim_MoveX() {
-		
+	void CoinAnim_MoveX() {
 		int x = 3;
 		int y = 7;
 		float xa = 0;
@@ -91,7 +90,6 @@ void CoinAnim_MoveX() {
 	    assertEquals(y, anim.y);
 	}
 	void CoinAnim_MoveYa() {
-		
 		int x = 3;
 		int y = 7;
 		float xa = 0;
@@ -131,14 +129,30 @@ void CoinAnim_MoveX() {
 	void Mushroom_Move_Alive_Ground() {
 		
 	}
-	void Sparkle_Move() {
-		
+	void Sparkle_MoveX() {
+		int x = 5;
+		int y = 7;
+		float xa = 4f;
+		float ya = 3f;
+		Sparkle spark = new Sparkle(null, x, y, xa, ya);
+		x+=xa;
+        y+=ya;
+        assertEquals(x, spark.x);
+	}
+	void Sparkle_MoveY() {
+		int x = 5;
+		int y = 7;
+		float xa = 4f;
+		float ya = 3f;
+		Sparkle spark = new Sparkle(null, x, y, xa, ya);
+		x+=xa;
+        y+=ya;
+        assertEquals(y, spark.y);
 	}
 	void Spiky_Move() {
 		
 	}
 	
-
 	/*TODO: 
 	void BulletBill_Move() {
 		

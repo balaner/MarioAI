@@ -97,10 +97,6 @@ public class Mushroom extends Sprite //cloneable
         else
         {
             xa *= AIR_INERTIA;
-        }
-
-        if (!onGround)
-        {
             ya += 2;
         }
     }

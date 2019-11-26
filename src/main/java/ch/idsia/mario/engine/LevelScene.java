@@ -1177,7 +1177,6 @@ public class LevelScene implements SpriteContext {
 	}
 	
 	public boolean wasMarioOnGround() {
-		
 		return mario.wasOnGround();
 	}
 	
@@ -1223,12 +1222,12 @@ public class LevelScene implements SpriteContext {
 	
 	//--- A* Help Methods
 	
-	public LevelScene getDeepCopy() {
-		return new LevelScene(this,false);
+	public LevelSceneWrapper getDeepCopy() {
+		return new LevelSceneWrapper(this);
 	}
 	
-	public LevelScene getAStarCopy() {
-		return new LevelScene(this, true);
+	public LevelSceneWrapper getAStarCopy() {
+		return new LevelSceneWrapper(this);
 	}
 	
 	public double getScore() {

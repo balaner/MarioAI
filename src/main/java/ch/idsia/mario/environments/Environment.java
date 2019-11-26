@@ -3,6 +3,7 @@ package ch.idsia.mario.environments;
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import ch.idsia.mario.engine.LevelScene;
+import ch.idsia.mario.engine.LevelSceneWrapper;
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,5 +57,8 @@ public interface Environment
     
     public float[] getMarioFloatPosArray();
     public float[] getEnemiesFloatPosArray();
+
+	public LevelSceneWrapper getLevelSceneWrapper();
+
    
 }

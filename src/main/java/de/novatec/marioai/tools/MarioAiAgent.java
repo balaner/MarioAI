@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ch.idsia.ai.agents.Agent;
 import ch.idsia.mario.engine.LevelScene;
+import ch.idsia.mario.engine.LevelSceneWrapper;
 import ch.idsia.mario.engine.sprites.Mario.STATUS;
 import ch.idsia.mario.environments.Environment;
 import de.novatec.mario.engine.generalization.Coordinates;
@@ -532,16 +533,16 @@ public abstract class MarioAiAgent implements Agent{
 	 * Returns a deep copy of the actual LevelScene of the {@link #env}.
 	 * @return a exact deep copy of the actual LevelScene
 	 */
-	public final LevelScene getDeepCopyOfLevelScene(){
-		return env.getLevelScene().getDeepCopy();
+	public final LevelSceneWrapper getDeepCopyOfLevelScene(){
+		return env.getLevelSceneWrapper().getDeepCopy();	// TODO
 	}
 	
 	/**
 	 * Returns a lightweight copy of the actual LevelScene of the {@link #env}. Contains every object needed to perform  tick().
 	 * @return a lightweight copy of the actual LevelScene
 	 */
-	public final LevelScene getAStarCopyOfLevelScene() {
-		return env.getLevelScene().getAStarCopy();
+	public final LevelSceneWrapper getAStarCopyOfLevelScene() {
+		return env.getLevelSceneWrapper().getAStarCopy();	// TODO
 	}
 	
 	/**

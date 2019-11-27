@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import ch.idsia.ai.agents.Agent;
-import ch.idsia.mario.engine.LevelScene;
 import ch.idsia.mario.engine.LevelSceneWrapper;
 import ch.idsia.mario.engine.sprites.Mario.STATUS;
 import ch.idsia.mario.environments.Environment;

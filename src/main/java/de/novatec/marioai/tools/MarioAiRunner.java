@@ -1,48 +1,23 @@
 package de.novatec.marioai.tools;
 
 import java.awt.Point;
-import java.io.IOException;
-import java.net.BindException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.stream.Stream;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ch.idsia.ai.agents.Agent;
-import ch.idsia.ai.tasks.ChallengeTask;
 import ch.idsia.ai.tasks.Task;
-import ch.idsia.mario.engine.MarioComponent;
 import ch.idsia.tools.EvaluationInfo;
 import ch.idsia.tools.Evaluator;
 import ch.idsia.tools.RunnerOptions;
 import de.novatec.marioai.agents.included.ExampleAgent;
 import ch.idsia.tools.MainFrame;
-import io.prometheus.client.CollectorRegistry;
-import io.prometheus.client.Gauge;
-import io.prometheus.client.exporter.HTTPServer;
-import io.prometheus.client.exporter.PushGateway;
 
 /**
  * Simple helper class to start the evaluation of an agent. 
@@ -52,6 +27,7 @@ import io.prometheus.client.exporter.PushGateway;
 public class MarioAiRunner {
 	
 	private static final Logger log=LogManager.getLogger(MarioAiRunner.class);
+	@SuppressWarnings("unused")
 	private static final String jobName="challengeRun";
 	private static List<Agent> agents;
 	private static LevelConfig levelConfig;

@@ -1,12 +1,18 @@
 package ch.idsia.mario.engine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import ch.idsia.mario.engine.level.Level;
 import ch.idsia.mario.engine.sprites.Sprite;
+import ch.idsia.mario.engine.sprites.BulletBill;
+import ch.idsia.mario.engine.sprites.FireFlower;
+import ch.idsia.mario.engine.sprites.Fireball;
+import ch.idsia.mario.engine.sprites.FlowerEnemy;
 import ch.idsia.mario.engine.sprites.Mario.MODE;
 import ch.idsia.mario.engine.sprites.Mario.STATUS;
+import ch.idsia.mario.engine.sprites.Shell;
 import de.novatec.mario.engine.generalization.Coordinates;
 import de.novatec.mario.engine.generalization.Tile;
 import de.novatec.marioai.tools.MarioInput;
@@ -181,7 +187,8 @@ public class LevelSceneWrapper {
 	}
 	
 	public Sprite getMarioCarried() {
-		return ls.getMarioCarried();		//TODO: participant might manipulate what mario is carrying
+		Shell tmp = (Shell) ls.getMarioCarried();
+		return new Shell(ls, tmp);		//TODO: participant might manipulate what mario is carrying
 	}
 	
 	public double getScore() {
@@ -189,7 +196,10 @@ public class LevelSceneWrapper {
 	}
 
 	List<Sprite> getSprites() {
-		return ls.getSprites();		// TODO: look above
+		ArrayList<Sprite> tmp = (ArrayList<Sprite>) ls.getSprites();
+		ArrayList<Sprite> ret = new ArrayList<Sprite>();
+		// make a copy of each sprite so they cant be manipulated
+		return tmp;		// TODO: look above
 	}
 
 	public LevelSceneWrapper getAStarCopy() {

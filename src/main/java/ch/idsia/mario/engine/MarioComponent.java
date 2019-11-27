@@ -41,7 +41,6 @@ public class MarioComponent extends JComponent implements Environment {
     private boolean readyToExit=false,startReady=false;
     private float blackoutTimer;
     private boolean paused =false,setpaused=false, performTick=false,hijacked=false,sethijacked,wasHijacked=false,storedPause=false;
-    private LevelSceneWrapper lswrap= null;
     
     private RunnerOptions rOptions;
     
@@ -109,7 +108,6 @@ public class MarioComponent extends JComponent implements Environment {
 		this.fps=toCopy.fps;
 		
 		this.levelScene = alreadyCopied; 
-		this.lswrap = new LevelSceneWrapper(levelScene);
 		
 		this.debugView=toCopy.debugView;
 		
@@ -580,7 +578,6 @@ public class MarioComponent extends JComponent implements Environment {
 	//--- Control
     public void startLevel(long seed, int difficulty, LEVEL_TYPES type, int levelLength, int timeLimit) {
         levelScene = new LevelScene(this,this.getTask(),seed, difficulty, type, levelLength, timeLimit); 
-        this.lswrap = new LevelSceneWrapper(levelScene);
         levelScene.init(rOptions.getConfig(),rOptions.getMarioStartMode());
         
         if(this.isVisible()) {

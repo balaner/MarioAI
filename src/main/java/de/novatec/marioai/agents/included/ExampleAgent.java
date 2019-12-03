@@ -23,7 +23,7 @@ public class ExampleAgent extends MarioAiAgent {
 		
 		if(isEnemyAhead()) jump();
 
-		if(isSlopeAhead()&&!isHoleAhead()&&!(getDeepCopyOfLevelScene().getMarioXA()<2)) return getMarioInput();
+		if(isSlopeAhead()&&!isHoleAhead()&&!(getAStarCopyOfLevelScene().getMarioXA()<2)) return getMarioInput();
 	
 		moveRight();
 		

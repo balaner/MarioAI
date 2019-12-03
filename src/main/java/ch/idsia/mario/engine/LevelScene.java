@@ -1222,10 +1222,6 @@ public class LevelScene implements SpriteContext {
 	
 	//--- A* Help Methods
 	
-	public LevelSceneWrapper getDeepCopy() {
-		return new LevelSceneWrapper(this);
-	}
-	
 	public LevelSceneWrapper getAStarCopy() {
 		return new LevelSceneWrapper(this);
 	}

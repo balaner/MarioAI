@@ -7,13 +7,17 @@ import java.util.Map;
 import ch.idsia.mario.engine.level.Level;
 import ch.idsia.mario.engine.sprites.Sprite;
 import ch.idsia.mario.engine.sprites.BulletBill;
+import ch.idsia.mario.engine.sprites.Enemy;
 import ch.idsia.mario.engine.sprites.FireFlower;
 import ch.idsia.mario.engine.sprites.Fireball;
 import ch.idsia.mario.engine.sprites.FlowerEnemy;
+import ch.idsia.mario.engine.sprites.Mario;
 import ch.idsia.mario.engine.sprites.Mario.MODE;
 import ch.idsia.mario.engine.sprites.Mario.STATUS;
+import ch.idsia.mario.engine.sprites.Mushroom;
 import ch.idsia.mario.engine.sprites.Shell;
 import de.novatec.mario.engine.generalization.Coordinates;
+import de.novatec.mario.engine.generalization.Entity;
 import de.novatec.mario.engine.generalization.Tile;
 import de.novatec.marioai.tools.MarioInput;
 
@@ -32,6 +36,10 @@ public class LevelSceneWrapper {
 	
 	public Map<Coordinates, Tile> getTiles(){
 		return ls.getTiles();
+	}
+	
+	public Map<Coordinates, List<Entity>> getEntities() {
+		return ls.getEntities();
 	}
 	
 	public float[] enemiesFloatPos() {
@@ -195,18 +203,56 @@ public class LevelSceneWrapper {
 		return ls.getScore();
 	}
 
-	List<Sprite> getSprites() {
+	public List<Sprite> getSprites() {
 		ArrayList<Sprite> tmp = (ArrayList<Sprite>) ls.getSprites();
 		ArrayList<Sprite> ret = new ArrayList<Sprite>();
+		for(Sprite a : tmp) {
+			switch (a.getKind()) {
+			case (Sprite.KIND_COIN_ANIM):
+			case (Sprite.KIND_PARTICLE):
+			case (Sprite.KIND_SPARCLE):
+				continue;
+			case (Sprite.KIND_MARIO):
+				if(ls.isMarioCarrying()) {
+					ret.add(new Mario(ls, (Shell) ls.getMarioCarried(), (Mario)a));
+				}
+				else ret.add(new Mario(ls, ls.getMarioMode()));
+				continue;
+			case (Sprite.KIND_FIREBALL):
+				ret.add(new Fireball(ls, (Fireball)a));
+				continue;
+			case (Sprite.KIND_BULLET_BILL):
+				ret.add(new BulletBill(ls, (BulletBill)a));
+				continue;
+			case (Sprite.KIND_GOOMBA):
+			case (Sprite.KIND_GOOMBA_WINGED):
+			case (Sprite.KIND_GREEN_KOOPA):
+			case (Sprite.KIND_GREEN_KOOPA_WINGED):
+			case (Sprite.KIND_RED_KOOPA):
+			case (Sprite.KIND_RED_KOOPA_WINGED):
+			case (Sprite.KIND_SPIKY):
+			case (Sprite.KIND_SPIKY_WINGED):
+				ret.add(new Enemy(ls, (Enemy)a));
+				continue;
+			case (Sprite.KIND_SHELL):
+				ret.add(new Shell(ls, (Shell)a));
+				continue;
+			case (Sprite.KIND_ENEMY_FLOWER):
+				ret.add(new FlowerEnemy(ls, (FlowerEnemy)a));
+				continue;
+			case(Sprite.KIND_FIRE_FLOWER):
+				ret.add(new FireFlower(ls, (FireFlower)a));
+				continue;
+			case(Sprite.KIND_MUSHROOM):
+				ret.add(new Mushroom(ls, (Mushroom)a));
+				continue;
+			}
+		}
 		// make a copy of each sprite so they cant be manipulated
 		return tmp;		// TODO: look above
 	}
 
 	public LevelSceneWrapper getAStarCopy() {
-		return this;
-	}
-
-	public LevelSceneWrapper getDeepCopy() {
 		return this;
 	}
 	

@@ -529,14 +529,6 @@ public abstract class MarioAiAgent implements Agent{
 	//--- A* Helper Methods
 	
 	/**
-	 * Returns a deep copy of the actual LevelScene of the {@link #env}.
-	 * @return a exact deep copy of the actual LevelScene
-	 */
-	public final LevelSceneWrapper getDeepCopyOfLevelScene(){
-		return env.getLevelSceneWrapper().getDeepCopy();	// TODO
-	}
-	
-	/**
 	 * Returns a lightweight copy of the actual LevelScene of the {@link #env}. Contains every object needed to perform  tick().
 	 * @return a lightweight copy of the actual LevelScene
 	 */

@@ -23,6 +23,9 @@ public class MarioAiRunnerBuilder implements Builder<MarioAiRunner>{
 	private boolean exitOnFinish = false; 
 	private boolean pushMetrics = false;
 	
+	/**
+	 * returns a new marioairunner with the settings in this class
+	 */
 	public MarioAiRunner construct() {
 		return new MarioAiRunner(this);
 	}
@@ -30,12 +33,19 @@ public class MarioAiRunnerBuilder implements Builder<MarioAiRunner>{
 	public List<Agent> getAgents() {
 		return agents;
 	}
-
+	/**
+	 * 
+	 * @param agents to be added to the builder
+	 * @return this, for easier usage
+	 */
 	public MarioAiRunnerBuilder addAllAgents(List<Agent> agents) {
 		this.agents.addAll(agents);
 		return this;
 	}
-
+	/**
+	 * @param agent to be added to the builder
+	 * @return this for easier usage
+	 */
 	public MarioAiRunnerBuilder addAgent(Agent agent) {
 		this.agents.add(agent);
 		return this;
@@ -44,7 +54,10 @@ public class MarioAiRunnerBuilder implements Builder<MarioAiRunner>{
 	public LevelConfig getLevelConfig() {
 		return levelConfig;
 	}
-
+	/**
+	 * @param levelConfig to be set if not null
+	 * @return this for easier usage
+	 */
 	public MarioAiRunnerBuilder setLevelConfig(LevelConfig levelConfig) {
 		if(levelConfig != null) {
 			this.levelConfig = levelConfig;
@@ -55,7 +68,11 @@ public class MarioAiRunnerBuilder implements Builder<MarioAiRunner>{
 	public Task getTask() {
 		return task;
 	}
-
+	
+	/**
+	 * @param task to be set if not null
+	 * @return this for easier usage
+	 */
 	public MarioAiRunnerBuilder setTask(Task task) {
 		if(task != null) {
 			this.task = task;
@@ -66,7 +83,10 @@ public class MarioAiRunnerBuilder implements Builder<MarioAiRunner>{
 	public int getFps() {
 		return fps;
 	}
-
+	/**
+	 * @param fps to be set if > 0
+	 * @return this for easier usage
+	 */
 	public MarioAiRunnerBuilder setFps(int fps) {
 		if(fps>0) {
 			this.fps = fps;
@@ -77,7 +97,11 @@ public class MarioAiRunnerBuilder implements Builder<MarioAiRunner>{
 	public int getZoomFactor() {
 		return zoomFactor;
 	}
-
+	/**
+	 * 
+	 * @param zoomFactor to be set if > 0
+	 * @return this for easier usage
+	 */
 	public MarioAiRunnerBuilder setZoomFactor(int zoomFactor) {
 		if(zoomFactor>0) {
 			this.zoomFactor = zoomFactor;
